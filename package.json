@@ -16,5 +16,8 @@
     "morgan": "^1.10.0",
     "nunjucks": "^3.2.3",
     "ws": "^7.4.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
   }
 }
