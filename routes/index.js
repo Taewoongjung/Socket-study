@@ -50,6 +50,7 @@ router.get('/room/:id', async (req, res, next) => {
         if (rooms && rooms[req.params.id] && room.max <= rooms[req.params.id].length) {
             return res.redirect('/?error=허용 인원이 초과하였습니다.');
         }
+        const chats = await Chat.find({ room: room._id }).sort('createdAt');
         return res.render('chat', {
             room,
             title: room.title,
@@ -71,6 +72,22 @@ router.delete('/room/:id', async (req, res, next) => {
             req.app.get('io').of('/room').emit('removeRoom', req.params.id);
         }, 2000);
     } catch (error) {
+        console.error(error);
+        next(error);
+    }
+});
+
+router.post('/room/:id/chat', async (req, res, next) => {
+    try {
+        const chat = await Chat.create({
+            room: req.params.id,
+            user: req.session.console,
+            chat: req.body.chat,
+        });
+        req.app.get('io').of('/chat').to(req.params.id).emit('chat', chat); // req.app.get('io').of('/chat').emit('chat', chat); 이렇게 하면 그 namespace 전체에게 보내진다.
+        // .to(socket.id)는 귓속말 형식으로 메시지를 보낼 수 있음, 그리고 broadcast는 나를 제외한 나머지에게 메시지.
+        res.send('ok');
+    } catch(error) {
         console.error(error);
         next(error);
     }
