@@ -81,7 +81,7 @@ router.post('/room/:id/chat', async (req, res, next) => {
     try {
         const chat = await Chat.create({
             room: req.params.id,
-            user: req.session.console,
+            user: req.session.color,
             chat: req.body.chat,
         });
         req.app.get('io').of('/chat').to(req.params.id).emit('chat', chat); // req.app.get('io').of('/chat').emit('chat', chat); 이렇게 하면 그 namespace 전체에게 보내진다.

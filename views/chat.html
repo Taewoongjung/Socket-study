@@ -39,6 +39,7 @@
     <input type="text" id="chat" name="chat">
     <button type="submit">전송</button>
   </form>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script src="/socket.io/socket.io.js"></script>
   <script>
     const socket = io.connect('http://localhost:8005/chat', {
@@ -77,6 +78,7 @@
       } else {
         const gif = document.createElement('img');
         gif.src = '/gif/' + data.gif;
+        div.appendChild(gif);
       }
       div.style.color = data.user;
       document.querySelector('#chat-list').appendChild(div);
