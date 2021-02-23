@@ -29,7 +29,7 @@ module.exports = (server, app, sessionMiddleware) => {
     console.log('chat 네임스페이스에 접속');
     const req = socket.request;
     const { headers: { referer } } = req;
-    console.log(referer);
+    console.log("referer = ", referer);
     const roomId = referer
       .split('/')[referer.split('/').length - 1]
       .replace(/\?.+/, '');
